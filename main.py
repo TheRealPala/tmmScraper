@@ -104,7 +104,7 @@ def parsePdf():
     except subprocess.CalledProcessError:
         print("Tabula execution failed")
         return
-    # The json exist, so i'm gonna process it as the parsePfi() wants it.
+    # The json exist, so I'm going to process it as the parsePfi() wants it.
     with open('pfi_converted.json') as f:
         data = json.load(f)[0]['data'][1:]  # terribile ma mi serve solo il sottoarray data dal secondo elemento in poi
     # riempio il dizionario expenses con i dati che mi interessano
@@ -139,32 +139,24 @@ def soldiRimanenti():
     Faccio questa funzione perchè mi ritrovo sempre soldi in avanzo quando devo rendicontare a settembre.
     """
     df = pd.read_excel("currentYearAmount.xlsx")
-    df = df.sort_values(by=["Tipo"]).reset_index(drop=True)  # ho il file ordinato per tipo
-    # da qui in poi devo trovarmi i totali per tipo
-    importoTot = []
-    tipoTot = []
+    df = df.sort_values(by=["Tipo"]) #ho il file ordinato per tipo
+
+    #da qui in poi devo trovarmi i totali per tipo
     importo = df['Importo']
     tipo = df['Tipo']
-
-    currentType = tipo[0]
-    sommaParz = 0
-    for i in range(0, importo.size):
-        if currentType != tipo[i]:
-            tipoTot.append(currentType)
-            importoTot.append(sommaParz)
-            currentType = tipo[i]
-            sommaParz = 0
-        sommaParz += importo[i]
-    if currentType == tipo[tipo.size - 1]:
-        tipoTot.append(currentType)
-        importoTot.append(sommaParz)
+    tmp = {}
+    for i in range (0, importo.size):
+       if (tipo[i] not in tmp.keys()):
+           tmp[tipo[i]] = importo[i]
+       else:
+           tmp[tipo[i]] += importo[i]
     totalDf = pd.DataFrame(columns=['Tipo', 'Importo'])
-    totalDf['Tipo'] = tipoTot
-    totalDf['Importo'] = importoTot
+    totalDf['Tipo'] = tmp.keys()
+    totalDf['Importo'] = tmp.values()
 
-    # mi serve calcolare la differenza fra il pfi e ciò che ho rendicontato
-    # parse pfi
-    try:
+    #mi serve calcolare la differenza fra il pfi e ciò che ho rendicontato
+    #parse pfi
+    try :
 
         totalAmount, pfi = parsePfi()
 
