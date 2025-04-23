@@ -24,9 +24,11 @@ def scraper():
     buttonSubmit = driver.find_element(By.ID, 'um-submit-btn')
     userInput.send_keys(username)
     passwordInput.send_keys(password)
+    buttonCookie = driver.find_element(By.CLASS_NAME, 'cky-btn-reject')
+    buttonCookie.click()
     buttonSubmit.click()
     try:
-        WebDriverWait(driver, 10).until(
+        WebDriverWait(driver, 20).until(
             ec.url_to_be(f'https://www.tuttomeritomio.it/utente/{username}/')
         )
         navBar = driver.find_element(By.CLASS_NAME, 'um-profile-nav')
@@ -83,24 +85,17 @@ def soldiRimanenti():
     df = df.sort_values(by=["Tipo"]) #ho il file ordinato per tipo
 
     #da qui in poi devo trovarmi i totali per tipo
-    importoTot = []
-    tipoTot = []
     importo = df['Importo']
     tipo = df['Tipo']
-
-
-    currentType = tipo[0]
-    sommaParz = 0
+    tmp = {}
     for i in range (0, importo.size):
-        if currentType != tipo[i]:
-            tipoTot.append(currentType)
-            importoTot.append(sommaParz)
-            currentType = tipo[i]
-            sommaParz = 0
-        sommaParz += importo[i]
+       if (tipo[i] not in tmp.keys()):
+           tmp[tipo[i]] = importo[i]
+       else:
+           tmp[tipo[i]] += importo[i]
     totalDf = pd.DataFrame(columns=['Tipo', 'Importo'])
-    totalDf['Tipo'] = tipoTot
-    totalDf['Importo'] = importoTot
+    totalDf['Tipo'] = tmp.keys()
+    totalDf['Importo'] = tmp.values()
 
     #mi serve calcolare la differenza fra il pfi e ciò che ho rendicontato
     #parse pfi
@@ -134,5 +129,5 @@ def soldiRimanenti():
         print(e)
 
 if __name__ == '__main__':
-    scraper()
+    #scraper()
     soldiRimanenti()
