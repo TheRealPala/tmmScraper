@@ -5,24 +5,25 @@
 
 
 
-- ### The scraper must be written in Python 3.10.12, the libraries were managed with pip 23.2.1
-- ### In order to parse the pfi pdf you need to install java 8. 
+- The scraper has beem written in Python 3.10.12, the libraries were managed with pip 23.2.1
+- In order to parse the pfi pdf you need to install java 8. 
   
 ## Scaffold
 
 
 
-### 1. Be sure to use python 3.10.12 or major versions (with an appropriate pip version)
-### 2. Install all the libraries in the requirements.txt file (if you use pip run `pip install -r requirements.txt`)
-### 3. Rename the file '.env.dist' into '.env' and fill the variables with the correct values (please, keep the single quote as trailer and header of each variables entered)
-### 4. Put your pfi pdf file into the root folder of the project and rename it `pfi.pdf` (IMPORTANT! It won't work otherwise)
-### 5. Run the command `python main.py` to start the scraper
+ 1. Be sure to use python 3.10.12 or major versions (with an appropriate pip version)
+ 2. Install all the libraries in the requirements.txt file (if you use pip run `pip install -r requirements.txt`)
+ 3. Rename the file '.env.dist' into '.env' and fill the variables with the correct values (please, keep the single quote as trailer and header of each variables entered)
+ 4. Put your pfi pdf file into the root folder of the project and rename it `pfi.pdf` (IMPORTANT! It won't work otherwise)
+ 5. Run the command `python main.py` to start the scraper
+## Notes
+ If you run into any problem with the pdf parsing, and you do not know how to fix it, you can comment the line  `parsePdf()` function call in the main.py.
+ If you do so, then you must create a file named pfi.json starting by the pfi.json.dist file (you can find it in the project root) and fill it with the correct values.
+
 
 ## Output
-
-
-
-## The output of the scraper will be three different excel files:
-### - currentYearAmount.xlsx: This file will contain the total amount of invoices which have been sent since the start of the last edition (first October of the previous year) until the current date.
-### - allAmount.xlsx: This file will contain the total amount of invoices which have been sent since the start of the program.
-### - moneyToSpend.xlsx: This file will contain the total amount of money that you need to spend before the end of the edition.
+The output of the scraper will be three different Excel files:
+ - currentYearAmount.xlsx: This file will contain the total amount of invoices which have been sent since the start of the last edition (first October of the previous year) until the current date.
+- allAmount.xlsx: This file will contain the total amount of invoices which have been sent since the start of the program.
+- moneyToSpend.xlsx: This file will contain the total amount of money that you need to spend before the end of the edition.
