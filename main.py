@@ -180,7 +180,7 @@ def soldiRimanenti():
         # calcolo il totale
         total = diff['Importo'].sum()
         if total > (totalAmount * 0.1):
-            print("Finisci la rendicontazione fava")
+            print("Finisci la rendicontazione!")
         print(f"Mancante: {total}")
     except ValueError as e:
         print("An error occured during parsing of pfi (pfi.json)")
